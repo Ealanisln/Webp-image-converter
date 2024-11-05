@@ -74,10 +74,13 @@ def convert_images(input_dir, output_dir=None, quality=80, formats=None):
     print(f"Check the 'webp_converted' folder in: {output_dir}")
 
 if __name__ == "__main__":
+    # Get the current directory where the script is being run
+    default_path = os.path.join(os.getcwd(), "images-to-convert")
+    
     parser = argparse.ArgumentParser(description='Convert images to WebP format')
     parser.add_argument('--path', '-p', 
-                       default="/Users/ealanis/Development/utils/image-converter/Images-to-be-converted",
-                       help='Path to the directory containing images')
+                       default=default_path,
+                       help='Path to the directory containing images (default: ./images-to-convert)')
     parser.add_argument('--quality', '-q', type=int, default=80,
                        help='WebP quality (0-100, default: 80)')
     parser.add_argument('--formats', '-f', nargs='+', 
@@ -93,7 +96,16 @@ if __name__ == "__main__":
     print(f"Quality setting: {args.quality}")
     print("======================")
 
-    if os.path.exists(args.path):
-        convert_images(args.path, quality=args.quality, formats=args.formats)
+    if not os.path.exists(args.path):
+        print(f"Notice: Directory '{args.path}' not found.")
+        create_dir = input("Would you like to create it? (y/n): ").lower().strip()
+        if create_dir == 'y':
+            os.makedirs(args.path)
+            print(f"Created directory: {args.path}")
+            print("Please place your images in this directory and run the script again.")
+            exit(0)
+        else:
+            print("Operation cancelled.")
+            exit(1)
     else:
-        print("Error: Directory not found! Please make sure the path exists.")
+        convert_images(args.path, quality=args.quality, formats=args.formats)

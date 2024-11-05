@@ -70,6 +70,26 @@ python3 convert_images.py -f png jpg
 python3 convert_images.py -p /custom/path -q 95 -f png jpg jpeg
 ```
 
+## Directory Structure
+
+The script expects one of the following:
+
+1. A folder named `images-to-convert` in the same directory as the script, or
+2. A custom path specified via the `--path` argument
+
+### Setting up the directory:
+
+```bash
+# Option 1: Create default directory
+mkdir images-to-convert
+# Place your images in this directory
+
+# Option 2: Use a custom directory
+python3 convert_images.py --path /path/to/your/images
+```
+
+If the default directory doesn't exist, the script will offer to create it for you.
+
 ## Output
 
 - Converted images are saved in a new `webp_converted` folder within the input directory
